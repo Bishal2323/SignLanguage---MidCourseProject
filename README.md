@@ -21,3 +21,20 @@ The dataset contains 28x28 grayscale images and separate training and test CSV f
 - `sign_mnist_test.csv`
 
 The dataset's labels represent the static ASL alphabet classes. `J` and `Z` are not included because they require motion.
+
+## Project Structure
+
+```text
+.
+├── notebooks/
+│   └── projectSVM.ipynb       # Week 1 classical-model notebook
+├── Models/
+│   └── asl_svm_model.pkl       # Exported SVM model
+└── README.md                  # Project documentation
+```
+
+Open the baseline notebook with:
+
+```bash
+jupyter lab notebooks/projectSVM.ipynb
+```
