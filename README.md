@@ -26,15 +26,9 @@ The dataset's labels represent the static ASL alphabet classes. `J` and `Z` are 
 
 ```text
 .
-├── notebooks/
+├── Notebooks/
 │   └── projectSVM.ipynb       # Week 1 classical-model notebook
 ├── Models/
 │   └── asl_svm_model.pkl       # Exported SVM model
 └── README.md                  # Project documentation
-```
-
-Open the baseline notebook with:
-
-```bash
-jupyter lab notebooks/projectSVM.ipynb
 ```
