@@ -46,12 +46,20 @@ how the model is interpreting different ASL hand shapes:
 
 ![ASL Sign Reference Panel](amer_sign_panel.png)
 
+## Application Screenshot
+
+The screenshot below shows the Streamlit app recognizing a sample hand sign and
+displaying the predicted letter, confidence score, and top three candidates:
+
+![ASL Translation Engine screenshot](screenshot.png)
+
 ## Project Structure
 
 ```text
 .
 ├── app.py                     # Streamlit application
 ├── amer_sign_panel.png        # ASL sign reference panel
+├── screenshot.png             # Streamlit application screenshot
 ├── image_samples/             # Sample images for model testing
 │   ├── A_sample_17.png
 │   ├── D_sample_4.png
