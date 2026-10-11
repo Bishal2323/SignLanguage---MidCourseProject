@@ -32,12 +32,11 @@ images for quick validation and demonstration:
 
 ```text
 image_samples/
-├── A_sample_17.png
-├── D_sample_4.png
-├── G_sample_109.png
-├── K_sample_24.png
-├── O_sample_7.png
-├── R_sample_80.png
+├── sample_1.png
+├── sample_2.png
+├── sample_3.png
+├── sample_4.png
+├── sample_5.png
 └── ...
 ```
 
@@ -61,12 +60,12 @@ displaying the predicted letter, confidence score, and top three candidates:
 ├── amer_sign_panel.png        # ASL sign reference panel
 ├── screenshot.png             # Streamlit application screenshot
 ├── image_samples/             # Sample images for model testing
-│   ├── A_sample_17.png
-│   ├── D_sample_4.png
-│   ├── G_sample_109.png
-│   ├── K_sample_24.png
-│   ├── O_sample_7.png
-│   ├── R_sample_80.png
+│   ├── sample_1.png
+│   ├── sample_2.png
+│   ├── sample_3.png
+│   ├── sample_4.png
+│   ├── sample_5.png
+│   ├── sample_6.png
 │   └── ...
 ├── Models/
 │   ├── asl_svm_model.pkl      # Exported SVM model
