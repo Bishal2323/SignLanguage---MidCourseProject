@@ -48,15 +48,79 @@ def load_cnn_model():
     model.eval()
     return model
 
-st.title("ASL Translation Engine")
-st.write("Upload a static image of a hand sign (A–Y, omitting J & Z).")
+# Main Dashboard Header
+st.title("🤟 ASL Recognition Dashboard")
 
+st.markdown("""
+### American Sign Language Recognition Using Machine Learning
+
+Welcome to our ASL Recognition Dashboard!
+
+This application uses a Convolutional Neural Network (CNN)
+to recognize static American Sign Language hand gestures.
+
+Upload an image of a hand sign to see the predicted letter
+and the model's confidence score.
+""")
+
+st.divider()
+# -----------------------------
+# Project Information Sidebar
+# -----------------------------
+
+with st.sidebar:
+    st.header("📌 About This Project")
+
+    st.write("""
+    This project explores how machine learning
+    can recognize American Sign Language (ASL)
+    hand gestures.
+
+    Our team developed and compared two models:
+
+    - Support Vector Machine (SVM)
+    - Convolutional Neural Network (CNN)
+    """)
+
+    st.divider()
+
+    st.header("📖 How to Use")
+
+    st.write("""
+    1. Upload an image of an ASL hand sign.
+    2. Wait for the CNN to analyze the image.
+    3. View the predicted letter.
+    4. Review the confidence score.
+    """)
+
+    st.divider()
+
+    st.header("🧠 Model Information")
+
+    st.info("""
+    The CNN recognizes 24 static ASL letters.
+
+    Letters J and Z are excluded because
+    they require movement.
+    """)
 uploaded_file = st.file_uploader("Choose an image (PNG/JPG)", type=["png", "jpg", "jpeg"])
 
 if uploaded_file is not None:
-    # Load and display user image
-    raw_img = Image.open(uploaded_file)
-    st.image(raw_img, caption="Uploaded Image", width=160)
+
+    # Create two columns for the dashboard
+    col1, col2 = st.columns(2)
+
+    # Left column: Uploaded Image
+    with col1:
+        st.subheader("📷 Uploaded Image")
+
+        raw_img = Image.open(uploaded_file)
+
+        st.image(
+            raw_img,
+            caption="Your ASL Hand Sign",
+            width=250
+        )
 
     # Preprocess: convert to Grayscale, resize to 28x28, normalize to [0, 1]
     gray_img = ImageOps.grayscale(raw_img).resize((28, 28))
@@ -74,11 +138,33 @@ if uploaded_file is not None:
     pred_letter = labels[pred_idx]
     confidence = float(probabilities[pred_idx])
 
-    st.subheader(f"Predicted Letter: **{pred_letter}**")
-    st.metric(label="Confidence Score", value=f"{confidence * 100:.2f}%")
+        # Right column: Prediction Results
+    with col2:
+        st.subheader("🎯 Prediction Results")
+
+        st.success(f"Predicted Letter: {pred_letter}")
+
+        st.metric(
+            label="Confidence Score",
+            value=f"{confidence * 100:.2f}%"
+        )
 
     # Display Top-3 alternatives
-    top_3_indices = np.argsort(probabilities)[-3:][::-1]
-    st.write("**Top 3 Candidates:**")
-    for idx in top_3_indices:
-        st.write(f"- **{labels[idx]}**: {probabilities[idx] * 100:.2f}%")
+    # Display Top 3 Predictions
+st.divider()
+
+st.subheader("📊 Top 3 Predictions")
+
+st.write(
+    "These are the three letters with the highest "
+    "prediction confidence scores."
+)
+
+top_3_indices = np.argsort(probabilities)[-3:][::-1]
+
+for idx in top_3_indices:
+    letter = labels[idx]
+    score = float(probabilities[idx])
+
+    st.write(f"**Letter {letter}: {score * 100:.2f}%**")
+    st.progress(score)
