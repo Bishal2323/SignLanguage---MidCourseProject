@@ -168,3 +168,106 @@ for idx in top_3_indices:
 
     st.write(f"**Letter {letter}: {score * 100:.2f}%**")
     st.progress(score)
+
+# ---------------------------------
+# SVM vs CNN Model Comparison
+# ---------------------------------
+
+st.divider()
+
+st.header("🧠 Machine Learning Model Comparison")
+
+st.write("""
+Our project explores two different machine learning
+approaches for recognizing American Sign Language gestures.
+
+The table below highlights the main differences
+between the Support Vector Machine (SVM) and
+Convolutional Neural Network (CNN).
+""")
+
+comparison_data = {
+    "Feature": [
+        "Model Type",
+        "Learning Approach",
+        "Feature Extraction",
+        "Image Processing",
+        "Complexity"
+    ],
+    "SVM": [
+        "Traditional Machine Learning",
+        "Supervised Learning",
+        "Uses provided image features",
+        "Classifies flattened image data",
+        "Generally less computationally intensive"
+    ],
+    "CNN": [
+        "Deep Learning",
+        "Supervised Learning",
+        "Learns image features automatically",
+        "Processes images using convolutional layers",
+        "Generally more computationally intensive"
+    ]
+}
+
+st.dataframe(
+    comparison_data,
+    hide_index=True,
+    use_container_width=True
+)
+
+st.info("""
+Both models are designed to classify ASL hand signs,
+but they use different approaches to recognize patterns.
+""")
+
+# ---------------------------------
+# Model Performance Comparison
+# ---------------------------------
+
+st.divider()
+
+st.header("📈 Model Performance Comparison")
+
+st.write("""
+The chart below compares the test accuracy and
+Macro F1 scores of our SVM and CNN models.
+
+These results were obtained from our group's
+model evaluation notebooks.
+""")
+
+performance_data = {
+    "Model": ["SVM", "CNN"],
+    "Accuracy": [84, 100],
+    "Macro F1 Score": [82, 100]
+}
+
+import pandas as pd
+
+performance_df = pd.DataFrame(performance_data)
+
+# Display performance table
+st.subheader("Model Evaluation Results")
+
+st.dataframe(
+    performance_df,
+    hide_index=True,
+    use_container_width=True
+)
+
+# Display comparison chart
+st.subheader("Accuracy and F1 Score Comparison")
+
+# Display grouped bar chart
+st.bar_chart(
+    performance_df.set_index("Model"),
+    stack=False
+)
+
+st.caption(
+    "Results are rounded percentages reported in the "
+    "project notebooks. The CNN's perfect test scores "
+    "should be interpreted cautiously until the "
+    "evaluation setup is verified."
+)
