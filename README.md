@@ -77,7 +77,7 @@ displaying the predicted letter, confidence score, and top three candidates:
 └── ...
 ```
 
-## Running the app
+## If you want to run the app
 
 Install the required Python packages:
 
