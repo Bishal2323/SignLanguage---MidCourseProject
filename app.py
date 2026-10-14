@@ -149,25 +149,24 @@ if uploaded_file is not None:
             value=f"{confidence * 100:.2f}%"
         )
 
-    # Display Top-3 alternatives
-    # Display Top 3 Predictions
-st.divider()
+    # Display Top 3 Predictions (only after an image has been uploaded)
+    st.divider()
 
-st.subheader("📊 Top 3 Predictions")
+    st.subheader("📊 Top 3 Predictions")
 
-st.write(
-    "These are the three letters with the highest "
-    "prediction confidence scores."
-)
+    st.write(
+        "These are the three letters with the highest "
+        "prediction confidence scores."
+    )
 
-top_3_indices = np.argsort(probabilities)[-3:][::-1]
+    top_3_indices = np.argsort(probabilities)[-3:][::-1]
 
-for idx in top_3_indices:
-    letter = labels[idx]
-    score = float(probabilities[idx])
+    for idx in top_3_indices:
+        letter = labels[idx]
+        score = float(probabilities[idx])
 
-    st.write(f"**Letter {letter}: {score * 100:.2f}%**")
-    st.progress(score)
+        st.write(f"**Letter {letter}: {score * 100:.2f}%**")
+        st.progress(score)
 
 # ---------------------------------
 # SVM vs CNN Model Comparison
