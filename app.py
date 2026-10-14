@@ -48,15 +48,79 @@ def load_cnn_model():
     model.eval()
     return model
 
-st.title("ASL Translation Engine")
-st.write("Upload a static image of a hand sign (A–Y, omitting J & Z).")
+# Main Dashboard Header
+st.title("🤟 ASL Recognition Dashboard")
 
+st.markdown("""
+### American Sign Language Recognition Using Machine Learning
+
+Welcome to our ASL Recognition Dashboard!
+
+This application uses a Convolutional Neural Network (CNN)
+to recognize static American Sign Language hand gestures.
+
+Upload an image of a hand sign to see the predicted letter
+and the model's confidence score.
+""")
+
+st.divider()
+# -----------------------------
+# Project Information Sidebar
+# -----------------------------
+
+with st.sidebar:
+    st.header("📌 About This Project")
+
+    st.write("""
+    This project explores how machine learning
+    can recognize American Sign Language (ASL)
+    hand gestures.
+
+    Our team developed and compared two models:
+
+    - Support Vector Machine (SVM)
+    - Convolutional Neural Network (CNN)
+    """)
+
+    st.divider()
+
+    st.header("📖 How to Use")
+
+    st.write("""
+    1. Upload an image of an ASL hand sign.
+    2. Wait for the CNN to analyze the image.
+    3. View the predicted letter.
+    4. Review the confidence score.
+    """)
+
+    st.divider()
+
+    st.header("🧠 Model Information")
+
+    st.info("""
+    The CNN recognizes 24 static ASL letters.
+
+    Letters J and Z are excluded because
+    they require movement.
+    """)
 uploaded_file = st.file_uploader("Choose an image (PNG/JPG)", type=["png", "jpg", "jpeg"])
 
 if uploaded_file is not None:
-    # Load and display user image
-    raw_img = Image.open(uploaded_file)
-    st.image(raw_img, caption="Uploaded Image", width=160)
+
+    # Create two columns for the dashboard
+    col1, col2 = st.columns(2)
+
+    # Left column: Uploaded Image
+    with col1:
+        st.subheader("📷 Uploaded Image")
+
+        raw_img = Image.open(uploaded_file)
+
+        st.image(
+            raw_img,
+            caption="Your ASL Hand Sign",
+            width=250
+        )
 
     # Preprocess: convert to Grayscale, resize to 28x28, normalize to [0, 1]
     gray_img = ImageOps.grayscale(raw_img).resize((28, 28))
@@ -74,11 +138,136 @@ if uploaded_file is not None:
     pred_letter = labels[pred_idx]
     confidence = float(probabilities[pred_idx])
 
-    st.subheader(f"Predicted Letter: **{pred_letter}**")
-    st.metric(label="Confidence Score", value=f"{confidence * 100:.2f}%")
+        # Right column: Prediction Results
+    with col2:
+        st.subheader("🎯 Prediction Results")
+
+        st.success(f"Predicted Letter: {pred_letter}")
+
+        st.metric(
+            label="Confidence Score",
+            value=f"{confidence * 100:.2f}%"
+        )
 
     # Display Top-3 alternatives
-    top_3_indices = np.argsort(probabilities)[-3:][::-1]
-    st.write("**Top 3 Candidates:**")
-    for idx in top_3_indices:
-        st.write(f"- **{labels[idx]}**: {probabilities[idx] * 100:.2f}%")
+    # Display Top 3 Predictions
+st.divider()
+
+st.subheader("📊 Top 3 Predictions")
+
+st.write(
+    "These are the three letters with the highest "
+    "prediction confidence scores."
+)
+
+top_3_indices = np.argsort(probabilities)[-3:][::-1]
+
+for idx in top_3_indices:
+    letter = labels[idx]
+    score = float(probabilities[idx])
+
+    st.write(f"**Letter {letter}: {score * 100:.2f}%**")
+    st.progress(score)
+
+# ---------------------------------
+# SVM vs CNN Model Comparison
+# ---------------------------------
+
+st.divider()
+
+st.header("🧠 Machine Learning Model Comparison")
+
+st.write("""
+Our project explores two different machine learning
+approaches for recognizing American Sign Language gestures.
+
+The table below highlights the main differences
+between the Support Vector Machine (SVM) and
+Convolutional Neural Network (CNN).
+""")
+
+comparison_data = {
+    "Feature": [
+        "Model Type",
+        "Learning Approach",
+        "Feature Extraction",
+        "Image Processing",
+        "Complexity"
+    ],
+    "SVM": [
+        "Traditional Machine Learning",
+        "Supervised Learning",
+        "Uses provided image features",
+        "Classifies flattened image data",
+        "Generally less computationally intensive"
+    ],
+    "CNN": [
+        "Deep Learning",
+        "Supervised Learning",
+        "Learns image features automatically",
+        "Processes images using convolutional layers",
+        "Generally more computationally intensive"
+    ]
+}
+
+st.dataframe(
+    comparison_data,
+    hide_index=True,
+    use_container_width=True
+)
+
+st.info("""
+Both models are designed to classify ASL hand signs,
+but they use different approaches to recognize patterns.
+""")
+
+# ---------------------------------
+# Model Performance Comparison
+# ---------------------------------
+
+st.divider()
+
+st.header("📈 Model Performance Comparison")
+
+st.write("""
+The chart below compares the test accuracy and
+Macro F1 scores of our SVM and CNN models.
+
+These results were obtained from our group's
+model evaluation notebooks.
+""")
+
+performance_data = {
+    "Model": ["SVM", "CNN"],
+    "Accuracy": [84, 100],
+    "Macro F1 Score": [82, 100]
+}
+
+import pandas as pd
+
+performance_df = pd.DataFrame(performance_data)
+
+# Display performance table
+st.subheader("Model Evaluation Results")
+
+st.dataframe(
+    performance_df,
+    hide_index=True,
+    use_container_width=True
+)
+
+# Display comparison chart
+st.subheader("Accuracy and F1 Score Comparison")
+
+# Display grouped bar chart
+st.bar_chart(
+    performance_df.set_index("Model"),
+    stack=False
+)
+
+st.caption(
+    "Results are rounded percentages reported in the "
+    "project notebooks. The CNN's perfect test scores "
+    "should be interpreted cautiously until the "
+    "evaluation setup is verified."
+)
