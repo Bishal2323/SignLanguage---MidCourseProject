@@ -50,7 +50,7 @@ how the model is interpreting different ASL hand shapes:
 The screenshot below shows the Streamlit app recognizing a sample hand sign and
 displaying the predicted letter, confidence score, and top three candidates:
 
-![ASL Translation Engine screenshot](screenshot.png)
+![ASL Translation Engine screenshot](Examples/screenshot.png)
 
 ## Project Structure
 
